@@ -383,6 +383,19 @@ function renderTaggedPosts() {
     : `<div class="empty-state">该标签下暂无文章</div>`}`;
 }
 
+/* ─── Reading progress bar ───────────────────────── */
+function initReadingProgress() {
+  const bar = document.getElementById('reading-progress');
+  if (!bar) return;
+  window.addEventListener('scroll', () => {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    const pct = scrollHeight > clientHeight
+      ? (scrollTop / (scrollHeight - clientHeight)) * 100
+      : 0;
+    bar.style.width = `${pct}%`;
+  }, { passive: true });
+}
+
 /* ─── Init ────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
@@ -390,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const page = location.pathname.split('/').pop() || 'index.html';
   if (page === 'index.html' || page === '')   initIndex();
-  if (page === 'post.html')                   initPost();
+  if (page === 'post.html')                 { initPost(); initReadingProgress(); }
   if (page === 'tags.html')                   initTagsPage();
 
   const themeBtn = document.getElementById('theme-btn');

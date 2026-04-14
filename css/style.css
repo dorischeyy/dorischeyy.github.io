@@ -61,6 +61,18 @@ a:hover { text-decoration: underline; }
 
 img { max-width: 100%; border-radius: var(--radius); }
 
+/* ─── Reading progress bar ───────────────────────── */
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--accent);
+  z-index: 200;
+  transition: width .08s linear;
+}
+
 /* ─── Nav ────────────────────────────────────────── */
 .nav {
   position: sticky;
