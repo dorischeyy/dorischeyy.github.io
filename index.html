@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>我的博客</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="index.html">我的博客</a>
+  <a class="nav-link" href="index.html">文章</a>
+  <a class="nav-link" href="tags.html">标签</a>
+  <button class="theme-btn" id="theme-btn" title="切换主题">☾</button>
+</nav>
+
+<div class="container">
+  <header class="page-header">
+    <h1>文章</h1>
+    <p>记录想法与生活</p>
+  </header>
+
+  <div class="tag-bar" id="tag-bar"></div>
+  <div id="post-list"><div class="loading">加载中…</div></div>
+</div>
+
+<footer>
+  <span>用纯静态构建 · 部署于 GitHub Pages</span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

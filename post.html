@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>文章 · 我的博客</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- highlight.js: light / dark theme switched by JS -->
+  <link id="hljs-theme" rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/highlight.js@11/styles/github.min.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="index.html">我的博客</a>
+  <a class="nav-link" href="index.html">文章</a>
+  <a class="nav-link" href="tags.html">标签</a>
+  <button class="theme-btn" id="theme-btn" title="切换主题">☾</button>
+</nav>
+
+<div class="container">
+  <div class="post-layout">
+    <!-- Main content -->
+    <main id="post-content"></main>
+
+    <!-- TOC sidebar -->
+    <aside class="toc-sidebar">
+      <div class="toc-label">目录</div>
+      <nav id="toc"></nav>
+    </aside>
+  </div>
+</div>
+
+<!-- Comments -->
+<section class="comments-section">
+  <div class="comments-title">评论</div>
+  <div id="giscus-container"></div>
+</section>
+
+<footer>
+  <span>用纯静态构建 · 部署于 GitHub Pages</span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11/lib/core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11/lib/languages/javascript.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11/lib/languages/python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11/lib/languages/bash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11/lib/languages/typescript.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11/lib/languages/css.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11/lib/languages/json.min.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // Sync hljs theme with color scheme
+  (function syncHljsTheme() {
+    const link = document.getElementById('hljs-theme');
+    function update() {
+      const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      link.href = dark
+        ? 'https://cdn.jsdelivr.net/npm/highlight.js@11/styles/github-dark.min.css'
+        : 'https://cdn.jsdelivr.net/npm/highlight.js@11/styles/github.min.css';
+    }
+    update();
+    new MutationObserver(update).observe(document.documentElement, {
+      attributes: true, attributeFilter: ['data-theme']
+    });
+  })();
+</script>
+</body>
+</html>
