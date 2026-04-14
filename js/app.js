@@ -225,7 +225,16 @@ async function initPost() {
           ).join('')}
         </div>
       </header>
-      <div class="post-body">${html}</div>`;
+      <div class="post-body">${html}</div>
+      <footer class="post-footer">
+        <span>发布于：${formatDate(meta.date || '')}</span>
+        ${meta.updated && meta.updated !== meta.date
+          ? `<span>最后更新：${formatDate(meta.updated)}</span>`
+          : ''}
+        <span id="busuanzi_container_page_pv">
+          <span id="busuanzi_value_page_pv">—</span> 次查看
+        </span>
+      </footer>`;
 
     // Syntax highlight
     content.querySelectorAll('pre code').forEach(block => {
