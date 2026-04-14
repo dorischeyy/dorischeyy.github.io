@@ -391,10 +391,7 @@ function renderTaggedPosts() {
 
 /* ─── Reading progress bar ───────────────────────── */
 function initReadingProgress() {
-  const topBar  = document.getElementById('reading-progress');
-  const tocFill = document.getElementById('toc-progress-fill');
-  const tocPct  = document.getElementById('toc-progress-pct');
-  if (!topBar && !tocFill) return;
+  const topBar = document.getElementById('reading-progress');
 
   window.addEventListener('scroll', () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
@@ -402,7 +399,11 @@ function initReadingProgress() {
       ? Math.round((scrollTop / (scrollHeight - clientHeight)) * 100)
       : 0;
 
-    if (topBar)  topBar.style.width = `${pct}%`;
+    if (topBar) topBar.style.width = `${pct}%`;
+
+    // 每次动态查找，因为 TOC 元素是异步渲染后才存在的
+    const tocFill = document.getElementById('toc-progress-fill');
+    const tocPct  = document.getElementById('toc-progress-pct');
     if (tocFill) tocFill.style.width = `${pct}%`;
     if (tocPct)  tocPct.textContent  = `${pct}%`;
   }, { passive: true });
