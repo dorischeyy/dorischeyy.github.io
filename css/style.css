@@ -184,19 +184,7 @@ img { max-width: 100%; border-radius: var(--radius); }
 
 .stats-divider { opacity: .4; }
 
-.stats-tag {
-  cursor: pointer;
-  padding: 2px 8px;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  color: var(--text-sub);
-  transition: all .15s;
-}
-.stats-tag:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-bg);
-}
+.stats-summary { color: var(--text-muted); }
 
 /* ─── Tag count inside tag chip ──────────────────── */
 .tag-count {

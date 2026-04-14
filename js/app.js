@@ -87,25 +87,15 @@ function renderStatsBar(posts) {
   const counts = {};
   posts.forEach(p => p.tags.forEach(t => counts[t] = (counts[t] || 0) + 1));
 
-  const tagItems = Object.entries(counts)
+  const tagSummary = Object.entries(counts)
     .sort((a, b) => b[1] - a[1])
-    .map(([tag, n]) => `<span class="stats-tag" data-tag="${tag}">${tag} <em>${n}</em></span>`)
-    .join('');
+    .map(([tag, n]) => `${tag} ${n}`)
+    .join(' · ');
 
   bar.innerHTML = `
     <span class="stats-total">共 <em>${posts.length}</em> 篇</span>
     <span class="stats-divider">·</span>
-    ${tagItems}`;
-
-  bar.querySelectorAll('.stats-tag').forEach(el => {
-    el.addEventListener('click', () => {
-      activeTag = el.dataset.tag;
-      document.querySelectorAll('.tag-bar .tag').forEach(t =>
-        t.classList.toggle('active', t.dataset.tag === activeTag)
-      );
-      renderPostList(allPosts, activeTag);
-    });
-  });
+    <span class="stats-summary">${tagSummary}</span>`;
 }
 
 function renderTagBar(posts, containerId) {
