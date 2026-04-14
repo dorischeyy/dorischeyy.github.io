@@ -272,11 +272,18 @@ function buildTOC() {
     depth: parseInt(h.tagName[1])
   }));
 
-  toc.innerHTML = `<ul class="toc-list">${items.map(item =>
-    `<li class="toc-item depth-${item.depth}">
-      <a class="toc-link" href="#${item.id}">${item.text}</a>
-    </li>`
-  ).join('')}</ul>`;
+  toc.innerHTML = `
+    <div class="toc-progress">
+      <div class="toc-progress-track">
+        <div class="toc-progress-fill" id="toc-progress-fill"></div>
+        <span class="toc-progress-pct" id="toc-progress-pct">0%</span>
+      </div>
+    </div>
+    <ul class="toc-list">${items.map(item =>
+      `<li class="toc-item depth-${item.depth}">
+        <a class="toc-link" href="#${item.id}">${item.text}</a>
+      </li>`
+    ).join('')}</ul>`;
 }
 
 /* ─── Scroll spy for TOC ─────────────────────────── */
@@ -394,14 +401,20 @@ function renderTaggedPosts() {
 
 /* ─── Reading progress bar ───────────────────────── */
 function initReadingProgress() {
-  const bar = document.getElementById('reading-progress');
-  if (!bar) return;
+  const topBar  = document.getElementById('reading-progress');
+  const tocFill = document.getElementById('toc-progress-fill');
+  const tocPct  = document.getElementById('toc-progress-pct');
+  if (!topBar && !tocFill) return;
+
   window.addEventListener('scroll', () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
     const pct = scrollHeight > clientHeight
-      ? (scrollTop / (scrollHeight - clientHeight)) * 100
+      ? Math.round((scrollTop / (scrollHeight - clientHeight)) * 100)
       : 0;
-    bar.style.width = `${pct}%`;
+
+    if (topBar)  topBar.style.width = `${pct}%`;
+    if (tocFill) tocFill.style.width = `${pct}%`;
+    if (tocPct)  tocPct.textContent  = `${pct}%`;
   }, { passive: true });
 }
 
