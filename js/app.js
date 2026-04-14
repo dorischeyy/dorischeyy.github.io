@@ -80,14 +80,45 @@ function formatDate(str) {
 let allPosts = [];
 let activeTag = 'all';
 
+function renderStatsBar(posts) {
+  const bar = document.getElementById('stats-bar');
+  if (!bar) return;
+
+  const counts = {};
+  posts.forEach(p => p.tags.forEach(t => counts[t] = (counts[t] || 0) + 1));
+
+  const tagItems = Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([tag, n]) => `<span class="stats-tag" data-tag="${tag}">${tag} <em>${n}</em></span>`)
+    .join('');
+
+  bar.innerHTML = `
+    <span class="stats-total">共 <em>${posts.length}</em> 篇</span>
+    <span class="stats-divider">·</span>
+    ${tagItems}`;
+
+  bar.querySelectorAll('.stats-tag').forEach(el => {
+    el.addEventListener('click', () => {
+      activeTag = el.dataset.tag;
+      document.querySelectorAll('.tag-bar .tag').forEach(t =>
+        t.classList.toggle('active', t.dataset.tag === activeTag)
+      );
+      renderPostList(allPosts, activeTag);
+    });
+  });
+}
+
 function renderTagBar(posts, containerId) {
+  const counts = {};
+  posts.forEach(p => p.tags.forEach(t => counts[t] = (counts[t] || 0) + 1));
+
   const tags = ['all', ...new Set(posts.flatMap(p => p.tags))];
   const container = document.getElementById(containerId);
   if (!container) return;
 
   container.innerHTML = tags.map(t =>
     `<span class="tag${t === activeTag ? ' active' : ''}" data-tag="${t}">
-      ${t === 'all' ? '全部' : t}
+      ${t === 'all' ? `全部 <em class="tag-count">${posts.length}</em>` : `${t} <em class="tag-count">${counts[t] || 0}</em>`}
     </span>`
   ).join('');
 
@@ -150,6 +181,7 @@ async function initIndex() {
   try {
     allPosts = await fetchJSON('./posts/index.json');
     allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    renderStatsBar(allPosts);
     renderTagBar(allPosts, 'tag-bar');
     renderPostList(allPosts, activeTag);
   } catch (e) {
